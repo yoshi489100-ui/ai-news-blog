@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime
 from crewai import Agent, Task, Crew, Process
-from crewai_tools import TavilySearchParams
+from crewai_tools import TavilySearchTool
 
 # APIキーの設定
 os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
