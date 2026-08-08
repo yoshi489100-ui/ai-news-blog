@@ -2,14 +2,14 @@ import os
 import json
 from datetime import datetime
 from crewai import Agent, Task, Crew, Process
-from crewai_tools import TavilySearchTool
+from langchain_community.tools.tavily_search import TavilyTextInput
 
 # APIキーの設定
 os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 os.environ["TAVILY_API_KEY"] = os.environ.get("TAVILY_API_KEY", "")
 
-# 検索ツールの初期化
-search_tool = TavilySearchTool()
+# 検索ツールの初期化（質問が出ない安全なツールに変更）
+search_tool = TavilyTextInput()
 
 # 1. エージェントの定義
 researcher = Agent(
