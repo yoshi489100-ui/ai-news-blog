@@ -9,8 +9,8 @@ from tavily import TavilyClient
 os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY", "")
 
-# 無料枠のGemini Flashモデルを指定
-gemini_model = "gemini/gemini-2.0-flash"
+# 2.0から最新の2.5へ変更して無料枠を適用させる
+gemini_model = "gemini/gemini-2.5-flash"
 
 # エラーの出ない安全な検索カスタムツールを定義
 @tool("Web Search Tool")
