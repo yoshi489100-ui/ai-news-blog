@@ -9,7 +9,7 @@ os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 os.environ["TAVILY_API_KEY"] = os.environ.get("TAVILY_API_KEY", "")
 
 # 検索ツールの初期化
-search_tool = TavilySearchParams()
+search_tool = TavilySearchTool()
 
 # 1. エージェントの定義
 researcher = Agent(
@@ -29,9 +29,13 @@ writer = Agent(
 
 # 2. タスクの定義
 search_task = Task(
-    description='「完全自動化 自律型 AI 技術動向」「最新 AI 活用事例」について最新のニュースや記事を3件以上検索し、要点をまとめてください。',
-    expected_output='最新のAI動向に関する詳細な調査レポート（日本語）',
-    agent=researcher
+    description='''
+    1. 調査レポートを基に、本日の日付を入れた新しい記事を作成してください。
+    2. index.html、archive.html、articles.json という名前の3つのファイルを直接作成・上書き保存してください。
+    3. index.htmlはTOPページとして最新記事を一番上に表示し、archive.htmlは過去記事へのリンク一覧、articles.jsonには記事のデータを保存してください。デザインはシンプルで美しいブログ風にしてください。
+    ''',
+
+
 )
 
 write_task = Task(
