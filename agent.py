@@ -55,12 +55,12 @@ search_task = Task(
 
 write_task = Task(
     description='''
-    1. 調査レポートを基に、本日の日付を入れた新しい記事を作成してください。
-    2. index.html、archive.html、articles.json という名前の3つのファイルを直接作成・上書き保存してください。
-    3. index.htmlはTOPページとして最新記事を一番上に表示し、archive.htmlは過去記事へのリンク一覧、articles.jsonには記事のデータを保存してください。デザインはシンプルで美しいブログ風にしてください。
+    調査レポートを基に、本日の日付を入れた最新のAI技術動向記事を作成し、シンプルで美しいブログデザイン（インラインCSS付き）の完全なHTMLコードとして出力してください。
+    これがそのままindex.htmlとして保存されます。
     ''',
-    expected_output='index.html, archive.html, articles.json の生成と更新',
-    agent=writer
+    expected_output='ブログデザインが適用された完全なHTMLコード',
+    agent=writer,
+    output_file='index.html'  # 【超重要】これで確実に物理ファイルが生成されます
 )
 
 # 3. クルーの実行
