@@ -4,14 +4,13 @@ from datetime import datetime
 from crewai import Agent, Task, Crew, Process
 from crewai.tools import tool
 from tavily import TavilyClient
-from langchain_google_genai import ChatGoogleGenerativeAI
 
 # APIキーの設定
 os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY", "")
 
 # 無料枠のGemini Flashモデルを指定
-gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+gemini_model = "gemini/gemini-1.5-flash"
 
 # エラーの出ない安全な検索カスタムツールを定義
 @tool("Web Search Tool")
