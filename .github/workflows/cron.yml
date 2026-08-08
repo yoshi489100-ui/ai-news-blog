@@ -1,0 +1,36 @@
+name: Auto Blog Update
+on:
+  schedule:
+    - cron: '0 0 * * *' # 日本時間の毎日午前9時に自動実行
+  workflow_dispatch: # 手動で今すぐ実行したい時のためのボタンを追加
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run AI Agent
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: python agent.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitHub-Actions-Bot"
+          git config --global user.email "actions@github.com"
+          git add index.html archive.html articles.json
+          git commit -m "Auto-updated by AI Agent [skip ci]" || echo "No changes to commit"
+          git push
