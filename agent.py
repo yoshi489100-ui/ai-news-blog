@@ -4,16 +4,16 @@ from datetime import datetime
 from crewai import Agent, Task, Crew, Process
 from crewai.tools import tool
 from tavily import TavilyClient
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # APIキーの設定
 os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY", "")
 
-# 【追加】Geminiを設定（無料枠のGemini Flashモデルを指定）
-from langchain_google_genai import ChatGoogleGenerativeAI
+# 無料枠のGemini Flashモデルを指定
 gemini_model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
-# 2026年最新仕様：エラーの出ない安全な検索カスタムツールを定義
+# エラーの出ない安全な検索カスタムツールを定義
 @tool("Web Search Tool")
 def web_search_tool(query: str) -> str:
     """インターネット上の最新情報を検索するツールです。"""
@@ -36,7 +36,7 @@ researcher = Agent(
     backstory='最新のテクノロジー動向を見逃さない優秀な調査員です。信頼性の高い情報源から具体的な事例の情報を集めます。',
     tools=[web_search_tool],
     verbose=True,
-    llm=gemini_model  # 【追加】
+    llm=gemini_model
 )
 
 writer = Agent(
@@ -44,9 +44,7 @@ writer = Agent(
     goal='収集された情報を整理し、読者が読みやすいシンプルな日本語のブログ記事（HTML形式）を作成・更新する',
     backstory='難しい技術を分かりやすく解説する人気ブロガーです。最新情報をTOPに配置し、過去記事はアーカイブ化する構造を設計します。',
     verbose=True,
-    llm=gemini_model  # 【追加】
-)
-
+    llm=gemini_model
 )
 
 # 2. タスクの定義
