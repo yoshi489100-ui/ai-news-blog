@@ -9,8 +9,11 @@ from tavily import TavilyClient
 os.environ["GEMINI_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY", "")
 
-# 2026年最新の無料枠モデル「Gemini 3.5 Flash-Lite」を指定
+# 2026年最新仕様：文字列でモデルを指定します
 gemini_model = "gemini/gemini-3.5-flash-lite"
+
+# 【追加】今日の正確な日付を取得（AIに現在が2026年であることを認識させます）
+today_str = datetime.now().strftime('%Y年%m月%d日')
 
 # エラーの出ない安全な検索カスタムツールを定義
 @tool("Web Search Tool")
@@ -54,13 +57,13 @@ search_task = Task(
 )
 
 write_task = Task(
-    description='''
-    調査レポートを基に、本日の日付を入れた最新のAI技術動向記事を作成し、シンプルで美しいブログデザイン（インラインCSS付き）の完全なHTMLコードとして出力してください。
-    これがそのままindex.htmlとして保存されます。
+    description=f'''
+    調査レポートを基に、本日（{today_str}）の日付を入れた最新の【2026年】のAI技術動向記事を作成し、シンプルで美しいブログデザイン（インラインCSS付き）の完全なHTMLコードとして出力してください。
+    必ず西暦は2026年として記事を執筆してください。これがそのままindex.htmlとして保存されます。
     ''',
     expected_output='ブログデザインが適用された完全なHTMLコード',
     agent=writer,
-    output_file='index.html'  # 【超重要】これで確実に物理ファイルが生成されます
+    output_file='index.html'
 )
 
 # 3. クルーの実行
